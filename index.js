@@ -36,7 +36,7 @@ const executeEncoder = async (inputFileName) => {
         },
         Outputs: outputGroup.Outputs.map((output) => ({
             ...output,
-            AudioDescriptions: output.AudioDescriptions?.filter((audioDescription) => audioDescription.AudioSelectorName === defaultAudioSelectorName) || [],
+            AudioDescriptions: output.AudioDescriptions?.filter((audioDescription) => audioDescription.AudioSourceName === defaultAudioSelectorName) || [],
             CaptionDescriptions: [],
         })).filter((output) => output.AudioDescriptions?.length > 0 || output.CaptionDescriptions?.length > 0 || Object.keys(output.VideoDescription || {}).length > 0)
     }));
@@ -52,8 +52,8 @@ const executeEncoder = async (inputFileName) => {
         StatusUpdateInterval: "SECONDS_60"
     };
     const createJobCommand = new CreateJobCommand(jobInput);
-    const createJobResponse = await client.send(createJobCommand);
-    return createJobResponse;
+    //const createJobResponse = await client.send(createJobCommand);
+    return jobInput;
 };
 
 
