@@ -37,7 +37,6 @@ const executeEncoder = async (inputFileName) => {
         Outputs: outputGroup.Outputs.map((output) => ({
             ...output,
             AudioDescriptions: output.AudioDescriptions?.filter((audioDescription) => audioDescription.AudioSourceName === defaultAudioSelectorName) || [],
-            CaptionDescriptions: [],
         })).filter((output) => output.AudioDescriptions?.length > 0 || output.CaptionDescriptions?.length > 0 || Object.keys(output.VideoDescription || {}).length > 0)
     }));
     jobSettings.OutputGroups = outputGroups;
