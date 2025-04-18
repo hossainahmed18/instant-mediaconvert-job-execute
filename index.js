@@ -52,8 +52,8 @@ const executeEncoder = async (inputFileName) => {
         StatusUpdateInterval: "SECONDS_60"
     };
     const createJobCommand = new CreateJobCommand(jobInput);
-    //const createJobResponse = await client.send(createJobCommand);
-    return jobInput;
+    const createJobResponse = await client.send(createJobCommand);
+    return createJobResponse;
 };
 
 
