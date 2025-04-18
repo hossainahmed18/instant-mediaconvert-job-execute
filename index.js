@@ -20,7 +20,7 @@ const executeEncoder = async (inputFileName) => {
     const defaultAudioSelectorName = selectors.find((selector) => jobTemplate.Settings.Inputs[0].AudioSelectors[selector].DefaultSelection === 'DEFAULT');
     const defaultAudioSelector = jobTemplate.Settings.Inputs[0].AudioSelectors[defaultAudioSelectorName];
 
-    const Inputs = jobTemplate.Settings.Inputs.map((input) => ({ ...input, FileInput: `s3://${INPUT_SOURCE_S3_BUCKET}/${INPUT_SOURCE_FOLDER}/${inputFileName}`, AudioSelectors: { defaultAudioSelectorName: defaultAudioSelector }, CaptionSelectors: {} }));
+    const Inputs = jobTemplate.Settings.Inputs.map((input) => ({ ...input, FileInput: `s3://${INPUT_SOURCE_S3_BUCKET}/${INPUT_SOURCE_FOLDER}/${inputFileName}`, AudioSelectors: { [defaultAudioSelectorName]: defaultAudioSelector }, CaptionSelectors: {} }));
     jobSettings.Inputs = Inputs;
 
     const fileNameWithoutExt = path.parse(path.basename(inputFileName)).name;
@@ -37,7 +37,7 @@ const executeEncoder = async (inputFileName) => {
         Outputs: outputGroup.Outputs.map((output) => ({
             ...output,
             AudioDescriptions: output.AudioDescriptions?.filter((audioDescription) => audioDescription.AudioSourceName === defaultAudioSelectorName) || [],
-        })).filter((output) => output.AudioDescriptions?.length > 0 || output.CaptionDescriptions?.length > 0 || Object.keys(output.VideoDescription || {}).length > 0)
+        })).filter((output) => !output.CaptionDescriptions && (output.AudioDescriptions?.length > 0 || Object.keys(output.VideoDescription || {}).length > 0))
     }));
     jobSettings.OutputGroups = outputGroups;
     const jobInput = {
