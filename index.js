@@ -59,7 +59,7 @@ const executeEncoder = async (inputFileName) => {
 
 (async () => {
     try {
-        const inputFileName = 'penguin.mp4'
+        const inputFileName = 'polar_bear.mp4'
         const response = await executeEncoder(inputFileName);
         console.log(JSON.stringify(response, null, 2));
     } catch (err) {
